@@ -16,6 +16,7 @@ namespace MVC5Course.Models
         
         [StringLength(80, ErrorMessage="欄位長度不得大於 80 個字元")]
         public string ProductName { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0}", ApplyFormatInEditMode = true)]
         public Nullable<decimal> Price { get; set; }
         public Nullable<bool> Active { get; set; }
         public Nullable<decimal> Stock { get; set; }
