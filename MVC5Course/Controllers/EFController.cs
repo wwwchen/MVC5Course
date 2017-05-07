@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -87,7 +88,16 @@ namespace MVC5Course.Controllers
 
             //db.Product.Remove(product);
             product.IsDeleted = true;
-            db.SaveChanges();
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                throw ex;
+            }
+
             return RedirectToAction("Index");
         }
 
