@@ -17,7 +17,7 @@ namespace MVC5Course.Controllers
             var all = db.Product.AsQueryable(); //AsQueryable 還不會取資料
 
             var data = all
-                .Where(p => p.Active == true && p.IsDeleted == false && p.ProductName.Contains("Black"))
+                .Where(p => p.Active == true && p.Is刪除 == false && p.ProductName.Contains("Black"))
                 .OrderByDescending(p => p.ProductId);
 
             //var data1 = all.Where(p => p.ProductId == 1); //是IQueryable list
@@ -87,7 +87,7 @@ namespace MVC5Course.Controllers
             //db.OrderLine.RemoveRange(product.OrderLine);
 
             //db.Product.Remove(product);
-            product.IsDeleted = true;
+            product.Is刪除 = true;
 
             try
             {
