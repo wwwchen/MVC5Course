@@ -9,6 +9,11 @@ namespace MVC5Course.Models
     [MetadataType(typeof(ProductMetaData))]
     public partial class Product
     {
+        [DisplayName("訂單數量")]
+        public virtual int OrderCount //若沒延遲載入，會有問題(目前沒有是因為前面controller 的 all 是用 AsQueryable，這個有延遲載入)
+        {
+            get { return this.OrderLine.Count; }
+        }
     }
     
     public partial class ProductMetaData
