@@ -76,8 +76,16 @@ namespace MVC5Course.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            var item = db.Product.Find(id);
-            db.Product.Remove(item);
+            var product = db.Product.Find(id);
+
+            //foreach (var item in product.OrderLine) //先刪除相關資料
+            //{
+            //    db.OrderLine.Remove(item);
+            //}
+
+            db.OrderLine.RemoveRange(product.OrderLine);
+
+            db.Product.Remove(product);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
