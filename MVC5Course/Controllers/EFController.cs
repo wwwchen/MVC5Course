@@ -103,8 +103,17 @@ namespace MVC5Course.Controllers
 
         public ActionResult Details(int id)
         {
-            var data = db.Product.Find(id);
+            //var data = db.Product.Find(id);
+            var data = db.Database.SqlQuery<Product>("SELECT * FROM dbo.Product WHERE ProductId=@p0", id).FirstOrDefault();
             return View(data);
+        }
+
+        public void RemoveAll()
+        {
+            //db.Product.RemoveRange(db.Product);
+            //db.SaveChanges();
+
+            db.Database.ExecuteSqlCommand("DELETE FROM dbo.Product");
         }
     }
 }
