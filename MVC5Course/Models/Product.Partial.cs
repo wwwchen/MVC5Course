@@ -8,7 +8,7 @@ namespace MVC5Course.Models
     using System.ComponentModel.DataAnnotations;
 
     [MetadataType(typeof(ProductMetaData))]
-    public partial class Product
+    public partial class Product : IValidatableObject
     {
         [DisplayName("訂單數量")]
         public virtual int OrderCount //若沒延遲載入，會有問題(目前沒有是因為前面controller 的 all 是用 AsQueryable，這個有延遲載入)
@@ -22,6 +22,26 @@ namespace MVC5Course.Models
                 //return this.OrderLine.Count(p => p.Qty > 400);
             }
         }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Price.HasValue && Price == 0)
+            {
+                yield return new ValidationResult("商品價格不能為 0"); //沒加參數，錯誤訊息就會顯示在最上面
+            }
+
+            if (Stock.HasValue && Stock == 0)
+            {
+                yield return new ValidationResult("商品庫存不能為 0", new string[] { "Stock" }); //後面的參數是指定錯誤訊息是顯示在那個label下
+            }
+
+            if (Stock.HasValue && Stock == 0 && Price.HasValue && Price == 0)
+            {
+                yield return new ValidationResult("商品價格與商品庫存不能為 1", new string[] { "Price", "Stock" }); //一個label只能有一個錯誤訊息
+            }
+
+            yield break;
+        }
     }
 
     public partial class ProductMetaData
@@ -31,8 +51,8 @@ namespace MVC5Course.Models
 
         [DisplayName("商品名稱")]
         [StringLength(80, ErrorMessage = "欄位長度不得大於 80 個字元")]
-        [Include("Will")]
-        [MaxWordsAttribute(2)]
+        //[Include("Will")]
+        //[MaxWordsAttribute(2)]
         //[MinLength(3), MaxLength(30)]
         //[RegularExpression("(.+)-(.+)", ErrorMessage = "商品名稱格式錯誤")]
         public string ProductName { get; set; }
