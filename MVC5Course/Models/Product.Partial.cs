@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using MVC5Course.Models.ValidationAttributes;
 
 namespace MVC5Course.Models
 {
@@ -30,6 +31,8 @@ namespace MVC5Course.Models
 
         [DisplayName("商品名稱")]
         [StringLength(80, ErrorMessage = "欄位長度不得大於 80 個字元")]
+        [Include("Will")]
+        [MaxWordsAttribute(2)]
         //[MinLength(3), MaxLength(30)]
         //[RegularExpression("(.+)-(.+)", ErrorMessage = "商品名稱格式錯誤")]
         public string ProductName { get; set; }
